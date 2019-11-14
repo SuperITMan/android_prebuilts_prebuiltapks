@@ -2,7 +2,7 @@
 # This script has been copied from: https://github.com/NationalBankBelgium/stark/blob/master/scripts/ci/_travis-fold.sh
 travisFoldStack=()
 
-TRAVIS=${TRAVIS:-}
+GITHUB_ACTIONS=${GITHUB_ACTIONS:-}
 
 function travisFoldStart() {
   local foldName="${0#./}  ${1}"
@@ -16,9 +16,9 @@ function travisFoldStart() {
   travisFoldStack+=("${sanitizedFoldName}|${foldStartTime}")
 
   echo ""
-  if [[ ${TRAVIS} == true ]]; then
-    echo "travis_fold:start:${sanitizedFoldName}"
-    echo "travis_time:start:${sanitizedFoldName}"
+  if [[ ${GITHUB_ACTIONS} == true ]]; then
+    echo "github_fold:start:${sanitizedFoldName}"
+    echo "github_time:start:${sanitizedFoldName}"
   fi
   local enterArrow="===>  ${foldName}  ==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>"
   # keep all messages consistently wide 80chars regardless of the foldName
@@ -45,7 +45,7 @@ function travisFoldEnd() {
   local lastFoldArray=(${lastFoldString//\|/ })
   local lastSanitizedFoldName=${lastFoldArray[0]}
 
-  if [[ ${TRAVIS} == true ]]; then
+  if [[ ${GITHUB_ACTIONS} == true ]]; then
     local lastFoldStartTime=${lastFoldArray[1]}
     local foldFinishTime=$(date +%s%N)
     local foldDuration=$(expr ${foldFinishTime} - ${lastFoldStartTime})
@@ -60,7 +60,7 @@ function travisFoldEnd() {
 
   # check for misalignment
   if [[ ${lastSanitizedFoldName} != ${sanitizedFoldName} ]]; then
-    echo "Travis fold mis-alignment detected! travisFoldEnd expected sanitized fold name '${lastSanitizedFoldName}', but received '${sanitizedFoldName}' (after sanitization)"
+    echo "GitHub fold mis-alignment detected! travisFoldEnd expected sanitized fold name '${lastSanitizedFoldName}', but received '${sanitizedFoldName}' (after sanitization)"
     exit 1
   fi
 
@@ -68,9 +68,9 @@ function travisFoldEnd() {
   # keep all messages consistently wide 80chars regardless of the foldName
   echo ${returnArrow:0:100}
   echo ""
-  if [[ ${TRAVIS} == true ]]; then
-    echo "travis_time:end:${sanitizedFoldName}:start=${lastFoldStartTime},finish=${foldFinishTime},duration=${foldDuration}"
-    echo "travis_fold:end:${sanitizedFoldName}"
+  if [[ ${GITHUB_ACTIONS} == true ]]; then
+    echo "github_time:end:${sanitizedFoldName}:start=${lastFoldStartTime},finish=${foldFinishTime},duration=${foldDuration}"
+    echo "github_fold:end:${sanitizedFoldName}"
   fi
 }
 

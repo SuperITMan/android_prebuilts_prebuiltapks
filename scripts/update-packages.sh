@@ -9,12 +9,12 @@ readonly currentDir=$(
 readonly SCRIPTS_LOCATION=$currentDir
 readonly rootDir="${currentDir}/.."
 
-TRAVIS=${TRAVIS:-}
+GITHUB_ACTIONS=${GITHUB_ACTIONS:-}
 
 VERBOSE=false
 TRACE=false
 
-if [[ ${TRAVIS} == true ]]; then
+if [[ ${GITHUB_ACTIONS} == true ]]; then
     TRACE=true
     git checkout master
 fi
@@ -122,15 +122,3 @@ while [ "${appName}" != "" ]; do
     appName=$(getApplicationName $index)
 done
 
-# Making sure the variable exists
-if [[ -z ${TRAVIS_EVENT_TYPE+x} ]]; then
-    TRAVIS_EVENT_TYPE=""
-fi
-
-if [[ ${TRAVIS_EVENT_TYPE} == "cron" ]]; then
-    logInfo "Daily build initiated by Travis cron job." 1
-    logInfo "Push new commits on GitHub"
-    git push github master
-else
-    logInfo "Normal build. New commits won't be pushed." 1
-fi
