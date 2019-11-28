@@ -43,7 +43,12 @@ cp /tmp/index-v1/index-v1.json ${currentDir}/index-v1.json
 travisFoldEnd "Downloading latest version of index-v1.json on F-Droid website"
 
 logInfo "Downloading GPG Key Signature: gpg --batch --recv-keys 41E7044E1DBA2E89"
-gpg --batch --recv-keys 41E7044E1DBA2E89 # See https://forum.f-droid.org/t/apk-verification-instructions/6047/20
+{
+    # See https://forum.f-droid.org/t/apk-verification-instructions/6047/20
+    gpg --batch --keyserver hkp://keysserver.ubuntu.com --recv-keys 41E7044E1DBA2E89
+} || {
+    gpg --batch --keyserver hkp://keys.gnupg.net --recv-keys 41E7044E1DBA2E89
+}
 
 travisFoldStart "Checking every application present in scripts/packages.js" "no-xtrace"
 

@@ -3,7 +3,7 @@ name: Daily Update
 on:
   schedule:
     - cron: "0 17 * * *"
-    - cron: "02 15 * * *"
+    - cron: "36 15 * * *"
 
 jobs:
   update:
@@ -16,27 +16,27 @@ jobs:
     - name: Setup Node
       uses: actions/setup-node@v1
       with:
-	node-version: '10.x'
+        node-version: '10.x'
 
     - name: Create file & folder for Travis logs
       run: |
-	# cfr scripts/_travis-fold.sh
-	mkdir -p $LOGS_DIR
-	touch $LOGS_FILE
+        # cfr scripts/_travis-fold.sh
+        mkdir -p $LOGS_DIR
+        touch $LOGS_FILE
     - name: List main variables
       run: |
-	echo "SHA:     : ${GITHUB_SHA}"
-	echo "Reference: ${GITHUB_REF}"
-	echo "Event    : ${GITHUB_EVENT_NAME}"
+        echo "SHA:     : ${GITHUB_SHA}"
+        echo "Reference: ${GITHUB_REF}"
+        echo "Event    : ${GITHUB_EVENT_NAME}"
     - name: Set git user informations
       run: |
-	git config --global user.name betterlineageci
-	git config --global user.email 58291749+betterlineageci@users.noreply.github.com
+        git config --global user.name betterlineageci
+        git config --global user.email 58291749+betterlineageci@users.noreply.github.com
     - name: Run script update-packages
       run: bash ./scripts/update-packages.sh
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
-	github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
     - name: Run script print-logs
       run: bash ./scripts/ci/print-logs.sh
