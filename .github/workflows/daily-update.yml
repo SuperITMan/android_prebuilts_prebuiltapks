@@ -2,8 +2,7 @@ name: Daily Update
 
 on:
   schedule:
-    - cron: "0 17 * * *"
-    - cron: "36 15 * * *"
+    - cron: "0 12 * * *"
 
 jobs:
   update:
