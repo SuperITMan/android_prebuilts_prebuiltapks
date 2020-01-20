@@ -2,7 +2,7 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE := DuckDuckGoPrivacyBrowser
-LOCAL_SRC_FILES := com.duckduckgo.mobile.android_53603.apk
+LOCAL_SRC_FILES := com.duckduckgo.mobile.android_54003.apk
 LOCAL_MODULE_CLASS := APPS
 LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
 LOCAL_CERTIFICATE := PRESIGNED
